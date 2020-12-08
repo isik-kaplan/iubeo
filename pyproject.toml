@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "iubeo"
+version = "0.1.0"
+description = "Friendlier way to write your config."
+authors = ["isik-kaplan <isik.kaplan@outlook.com>"]
+
+license = "MIT"
+readme = "README.md"
+
+homepage = "https://github.com/isik-kaplan/iubeo"
+repository = "https://github.com/isik-kaplan/iubeo"
+documentation = "https://github.com/isik-kaplan/iubeo"
+
+keywords = []
+classifiers = [
+    "Topic :: Software Development",
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3',
+    'Development Status :: 3 - Alpha',
+]
+
+[tool.poetry.dependencies]
+python = "^3.6.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+pre-commit = "^2.9.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
