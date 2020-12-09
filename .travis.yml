@@ -1,0 +1,24 @@
+language: python
+os: linux
+dist: xenial
+python:
+  - '3.6'
+  - '3.7'
+  - '3.8'
+  - '3.9'
+before_install:
+  - pip install poetry
+install:
+  - poetry install
+script: poetry run python -m unittest discover .
+before_deploy:
+  - poetry build
+deploy:
+  skip_cleanup: true
+  provider: pypi
+  skip_existing: true
+  username: isik-kaplan
+  password:
+    secure: zj91fERpjvmFcziQMvQCk1yMS1L1jdtoZMtfhuMPwzRyC4lBCYpuzCNFafDu1bB3mmrw+c7f/APRhXYshJ7o8T1efVTsppi6ZhkCD7S3PCSSwtYP363uaYQvVxP0v4viHeu5zbWwSSEgg4WS2qg4xi77zDNnjjWJ4vHdPpByYgzMqIedx+dhuyYD1jFCRQ5YzGdX4JA+3tF64fG4Zp9xQHAvtrYzknMp1ZbkRzwW8y0SW74wqUjG3y9f7ZXiqtMsvnuWi93sOSlWLLu0j1auh1MWFTDaoD8gtVWdtyGQDnjtzid096/tiDM0tFXXcF+QTu/BgBf9mfbN7sMEc/BlKw808OhddrieYPYy6ARnS6/MJJn2EMTV7TevAMOm5e0WRCieQX6BNN4m49j/fB3WSikZk256BJ0XSw/5PnNwbr8GQpWK63KjUOhMf694iIWJaiYDWOU5++pCCPDxZ/bU8CIL8afmhSjvDgUfRzVIhsDCjCyq+0QjEpsY/T0C60rXQzx8qHRmAUHR1b7zG2IUwZ6dDwl55/JdBNjP48ENchykbCkS9Uj1zBSeh/58Anvpn3X/lWgsYF8tbSqTss2MKdYh59qxZq0mxpZwXNfD6ucoaAh7Nz2BBEsc9IZxn0t0L2+gi6Cz+bdPsHZQxxS7KnUeqj2U3295QxwgVbEBvEw=
+  on:
+    branch: master
