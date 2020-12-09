@@ -19,10 +19,10 @@ def list_from_string(val):
 
 CONFIG = config({
     'DATABASE': {
-        'USER': str
-        'PASSWORD': str
-        'HOST': str
-        'PORT: str
+        'USER': str,
+        'PASSWORD': str,
+        'HOST': str,
+        'PORT: str,
     },
     'ALLOWED_HOSTS': list_from_string,
 })
