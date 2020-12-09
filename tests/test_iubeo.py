@@ -160,3 +160,6 @@ class IubeoTestCase(TestCase):
 
     def test_casts_the_callable(self):
         self.assertEqual(self.config.N0, "CUSTOM_CALLABLE")
+
+    def test_correctly_casts_the_values(self):
+        self.assertEqual(self.config.N0, "CUSTOM_CALLABLE")

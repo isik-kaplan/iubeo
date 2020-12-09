@@ -1,4 +1,5 @@
 import copy
+import os
 from typing import AnyStr, Callable, Dict, Optional, Tuple, Union
 
 ConfigFormat = Dict[AnyStr, Union["ConfigFormat", Tuple[AnyStr, Callable]]]
@@ -15,7 +16,7 @@ class Config(dict):
         value = dict.__getitem__(self, item)
         if isinstance(value, list):
             var, cast = value
-            return cast(var)
+            return cast(os.environ.get(var))
         return value
 
     _START_NODE_NAME = "iubeo_data"
