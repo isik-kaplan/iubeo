@@ -50,3 +50,19 @@ CONFIG.DATABASE.HOST # "localhost"
 CONFIG.DATABASE.PORT # "5432"
 CONFIG.ALLOWED_HOSTS # ["isik-kaplan.com", "api.isik-kaplan.com", "www.isik-kaplan.com"]
 ```
+
+Iubeo also comes with couple of pre-configured functions to read common environment variable types:
+```py
+from iubeo import config, comma_separated_list, boolean
+
+CONFIG = config({
+    'DATABASE': {
+        'USER': str,
+        'PASSWORD': str,
+        'HOST': str,
+        'PORT: str,
+    },
+    'ALLOWED_HOSTS': comma_separated_list,
+    'DEBUG': boolean,
+})
+```

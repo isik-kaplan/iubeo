@@ -1,5 +1,11 @@
-__version__ = "0.1.2"
+__version__ = "0.2.0"
 
-from .config import config
+from .casters import boolean, comma_separated_list
+from .config import ConfigError, config
 
-__all__ = ["config"]
+__all__ = [
+    "config",
+    "ConfigError",
+    "comma_separated_list",
+    "boolean",
+]

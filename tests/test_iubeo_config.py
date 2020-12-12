@@ -3,11 +3,11 @@ from unittest import TestCase
 from iubeo import config
 
 
-def custom_callable(arg):
+def custom_callable(value):
     return "CUSTOM_CALLABLE"
 
 
-class IubeoTestCase(TestCase):
+class IubeoConfigTestCase(TestCase):
     test_1 = {
         "N0": custom_callable,
         "N1": {

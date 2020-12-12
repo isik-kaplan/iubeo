@@ -2,11 +2,10 @@ import copy
 import os
 from typing import AnyStr, Callable, Dict, Optional, Tuple, Union
 
+from .exceptions import ConfigError
+from .utils import raise_config_error_instead
+
 ConfigFormat = Dict[AnyStr, Union["ConfigFormat", Tuple[AnyStr, Callable]]]
-
-
-class ConfigError(ValueError):
-    ...
 
 
 class Config(dict):
@@ -16,7 +15,7 @@ class Config(dict):
         value = dict.__getitem__(self, item)
         if isinstance(value, list):
             var, cast = value
-            return cast(os.environ.get(var))
+            return raise_config_error_instead(cast)(os.environ.get(var))
         return value
 
     _START_NODE_NAME = "iubeo_data"
