@@ -14,7 +14,8 @@ def raise_config_error_instead(f):
         try:
             return f(value)
         except Exception as e:
-            raise ConfigError("Error while parsing value with {}".format(f.__name__)) from e
+            exc = ConfigError('Error while parsing value with "{}" with value "{}".'.format(f.__name__, value))
+            raise exc from e
 
     wrapper._raises_config_error = True
     return wrapper
