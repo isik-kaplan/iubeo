@@ -22,7 +22,7 @@ CONFIG = config({
         'USER': str,
         'PASSWORD': str,
         'HOST': str,
-        'PORT: str,
+        'PORT': str,
     },
     'ALLOWED_HOSTS': list_from_string,
 })
