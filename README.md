@@ -38,7 +38,7 @@ DATABASE__USER=isik-kaplan
 DATABASE__PASSWORD=isik-kaplan-db-password
 DATABASE__HOST=localhost
 DATABASE__PORT=5432
-ALLOWED__HOSTS=isik-kaplan.com,api.isik-kaplan.com,www.isik-kaplan.com
+ALLOWED_HOSTS=isik-kaplan.com,api.isik-kaplan.com,www.isik-kaplan.com
 ```
 
 are read from the environment, and are casted when you access the attribute.
@@ -51,6 +51,20 @@ CONFIG.DATABASE.PORT # "5432"
 CONFIG.ALLOWED_HOSTS # ["isik-kaplan.com", "api.isik-kaplan.com", "www.isik-kaplan.com"]
 ```
 
+You can also change the separator and add a prefix to manage your environment variables better
+
+```py
+CONFIG = config({
+    'SECRETS': {
+        'API_KEY': str,
+    },
+}, prefix='APP1', sep='-')
+```
+which would be read from
+```.env
+APP1-SECRETS-API_KEY=isik_kaplan_api_key
+```
+
 Iubeo also comes with couple of pre-configured functions to read common environment variable types:
 ```py
 from iubeo import config, comma_separated_list, boolean
@@ -60,7 +74,7 @@ CONFIG = config({
         'USER': str,
         'PASSWORD': str,
         'HOST': str,
-        'PORT: str,
+        'PORT': str,
     },
     'ALLOWED_HOSTS': comma_separated_list,
     'DEBUG': boolean,
