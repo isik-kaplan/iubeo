@@ -17,7 +17,7 @@ repos:
       - id: isort
         args: [--profile=black, -m=3, -l=120]
 
-  - repo: https://github.com/hakancelik96/unimport
+  - repo: https://github.com/hakancelikdev/unimport
     rev: stable
     hooks:
       - id: unimport
