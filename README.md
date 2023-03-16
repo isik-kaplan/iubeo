@@ -17,38 +17,39 @@ from iubeo import config
 def list_from_string(val):
     return val.split(',')
 
-CONFIG = config({
-    'DATABASE': {
-        'USER': str,
-        'PASSWORD': str,
-        'HOST': str,
-        'PORT': str,
+CONFIG = config(
+    {
+        'DATABASE': {
+            'USER': str,
+            'PASSWORD': str,
+            'HOST': str,
+            'PORT': str,
+        },
+        'ALLOWED_HOSTS': list_from_string,
     },
-    'ALLOWED_HOSTS': list_from_string,
-})
+    # prefix = '',  # default
+    # sep = '__',  # default
+)
 ```
 
-It creates the environment variable names for you, and reads them from the environment, casting it to the final nodes.
-
-Now your can just chain the attributes, and if it is the last node on the above dictionary, you get the environment
-variable casted to given callable.
+with the above config, environment variables like
 
 ```.env
-DATABASE__USER=isik-kaplan
-DATABASE__PASSWORD=isik-kaplan-db-password
+DATABASE__USER=example
+DATABASE__PASSWORD=example-password
 DATABASE__HOST=localhost
 DATABASE__PORT=5432
-ALLOWED_HOSTS=isik-kaplan.com,api.isik-kaplan.com,www.isik-kaplan.com
+ALLOWED_HOSTS=example.com,api.example.com,www.example.com
 ```
 
-are read from the environment, and are casted when you access the attribute.
+are read from the environment.
 
 ```py
-CONFIG.DATABASE.USER # "isik-kaplan"
-CONFIG.DATABASE.PASSWORD # "isik-kaplan-db-password"
+CONFIG.DATABASE.USER # "example-user"
+CONFIG.DATABASE.PASSWORD # "example-password"
 CONFIG.DATABASE.HOST # "localhost"
 CONFIG.DATABASE.PORT # "5432"
-CONFIG.ALLOWED_HOSTS # ["isik-kaplan.com", "api.isik-kaplan.com", "www.isik-kaplan.com"]
+CONFIG.ALLOWED_HOSTS # ["example.com", "api.example.com", "www.example.com"]
 ```
 
 You can also change the separator and add a prefix to manage your environment variables better
@@ -65,7 +66,7 @@ which would be read from
 APP1-SECRETS-API_KEY=isik_kaplan_api_key
 ```
 
-Iubeo also comes with couple of pre-configured functions to read common environment variable types:
+Iubeo also comes with a couple of pre-configured functions to read common environment variable types:
 ```py
 from iubeo import config, comma_separated_list, boolean
 
