@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "iubeo"
-version = "0.2.1"
+version = "0.2.2"
 description = "Friendlier way to write your config."
 authors = ["isik-kaplan <isik.kaplan@outlook.com>"]
 
@@ -19,6 +19,8 @@ classifiers = [
     'Development Status :: 3 - Alpha',
 ]
 
+requires-python = ">=3.5"
+
 [tool.poetry.dependencies]
 python = "^3.6.1"
 
@@ -29,3 +31,6 @@ pre-commit = "^2.9.3"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[project.urls]
+Homepage = "https://github.com/isik-kaplan/django_http_exceptions"
