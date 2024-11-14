@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/isik-kaplan/iubeo.svg?branch=master)](https://travis-ci.com/isik-kaplan/iubeo)
+[![Build Status](https://github.com/isik-kaplan/iubeo/actions/workflows/tests.yml/badge.svg)](https://github.com/isik-kaplan/iubeo/actions/workflows/tests.yml/badge.svg)
 [![PyPI - License](https://img.shields.io/pypi/l/iubeo.svg)](https://pypi.org/project/iubeo/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/iubeo.svg)](https://pypi.org/project/iubeo/)
 
