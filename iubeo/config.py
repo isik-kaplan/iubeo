@@ -1,41 +1,56 @@
 import copy
 import os
-from typing import AnyStr, Callable, Dict, Optional, Tuple, Union
 
 from .exceptions import ConfigError
-from .utils import raise_config_error_instead
-
-ConfigFormat = Dict[AnyStr, Union["ConfigFormat", Tuple[AnyStr, Callable]]]
 
 
 class Config(dict):
-    __setattr__ = dict.__setitem__
-
-    def __getattr__(self, item):
-        value = dict.__getitem__(self, item)
-        if isinstance(value, list):
-            var, cast = value
-            return raise_config_error_instead(cast)(os.environ.get(var))
-        return value
-
     _START_NODE_NAME = "iubeo_data"
+
+    __setattr__ = dict.__setitem__
+    __getattr__ = dict.__getitem__
 
     @classmethod
     def _fix_end_node_name(cls, name, sep):
         # Removes sep+_START_NODE_NAME+sep from the end node name.
         return name.replace(sep + cls._START_NODE_NAME, "").lstrip(sep)
 
+    @staticmethod
+    def _cast_value(data, key, caster, environment_key):
+        try:
+            data[key] = caster(os.environ[environment_key])
+        except KeyError:
+            default = getattr(caster, "missing_default", None)
+            if default:
+                data[key] = default
+            else:
+                raise ConfigError(
+                    f"Environment variable {environment_key} not found."
+                    f" Please set it or provide a `missing_default` to your caster."
+                )
+        except Exception as e:
+            default = getattr(caster, "error_default", None)
+            if default:
+                data[key] = default
+            else:
+                raise ConfigError(
+                    f"Error while parsing {environment_key}='{os.environ[environment_key]}' with '{caster}'."
+                    " Please check the value and the caster or provide an `error_default` to your caster."
+                ) from e
+
     @classmethod
     def _create(cls, data: dict, prefix: str = "", sep: str = "__"):
         prefix = prefix or ""
+        mutated = {}
         for key, value in data.items():
             mutated = {}
             if isinstance(value, dict):
                 mutated = {prefix + sep + key: cls._create(value, prefix + sep + key, sep)}
             elif callable(value):
-                data[key] = [cls._fix_end_node_name(prefix + sep + key, sep), value]
+                cls._cast_value(data, key, value, cls._fix_end_node_name(prefix + sep + key, sep))
+
             else:
-                raise ConfigError("Values either must be callables or other mappings, not {}.".format(value))
+                raise ConfigError(f"Values either must be callables or other mappings, not {type(value)}. Key={key}.")
         return cls(**mutated, **data)
 
     @classmethod
@@ -60,18 +75,6 @@ class Config(dict):
         # Which has, well, a side effect of mutating the object for the end user, hence: deepcopy.
         return cls.from_data(cls._create(data, prefix, sep).get(cls._START_NODE_NAME))
 
-    @classmethod
-    def _final_nodes(cls, data: ConfigFormat):
-        for key, value in data.items():
-            if isinstance(value, list):
-                yield value[0]
-            elif isinstance(value, dict):
-                yield from cls._final_nodes(value)
 
-    @property
-    def final_nodes(self):
-        return [*self._final_nodes(self)]
-
-
-def config(data, *, prefix: Optional[str] = None, sep: str = "__"):
+def config(data, *, prefix: str | None = None, sep: str = "__"):
     return Config.create(data, prefix, sep)
