@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "iubeo"
-version = "0.2.2"
+version = "0.3.0"
 description = "Friendlier way to write your config."
 authors = ["isik-kaplan <isik.kaplan@outlook.com>"]
 

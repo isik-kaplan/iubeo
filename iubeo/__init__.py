@@ -1,11 +1,24 @@
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
-from .casters import boolean, comma_separated_list
+from .casters import (
+    boolean,
+    caster,
+    comma_separated_float_list,
+    comma_separated_int_list,
+    comma_separated_list,
+    integer,
+    string,
+)
 from .config import ConfigError, config
 
 __all__ = [
+    "caster",
     "config",
     "ConfigError",
-    "comma_separated_list",
     "boolean",
+    "comma_separated_list",
+    "comma_separated_int_list",
+    "comma_separated_float_list",
+    "integer",
+    "string",
 ]
