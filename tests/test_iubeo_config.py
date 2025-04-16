@@ -185,3 +185,13 @@ class IubeoConfigTestCase(TestCase):
             config({self.test_key: caster(custom_callable)})
         test_config = config({self.test_key: caster(custom_callable)(missing_default="CUSTOM_CALLABLE")})
         assert test_config.KEY == "CUSTOM_CALLABLE"
+
+    def test_caster__falsy_missing_value(self):
+        test_config1 = config({self.test_key: caster(custom_callable)(missing_default=None)})
+        test_config2 = config({self.test_key: integer(missing_default="")})
+        test_config3 = config({self.test_key: string(missing_default=None)})
+        test_config4 = config({self.test_key: boolean(missing_default=False)})
+        assert test_config1.KEY is None
+        assert test_config2.KEY == ""
+        assert test_config3.KEY is None
+        assert test_config4.KEY is False

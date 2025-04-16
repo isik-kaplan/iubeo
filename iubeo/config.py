@@ -6,6 +6,7 @@ from .exceptions import ConfigError
 
 class Config(dict):
     _START_NODE_NAME = "iubeo_data"
+    _MISSING_SENTINEL = object()
 
     __setattr__ = dict.__setitem__
     __getattr__ = dict.__getitem__
@@ -15,28 +16,26 @@ class Config(dict):
         # Removes sep+_START_NODE_NAME+sep from the end node name.
         return name.replace(sep + cls._START_NODE_NAME, "").lstrip(sep)
 
-    @staticmethod
-    def _cast_value(data, key, caster, environment_key):
+    @classmethod
+    def _cast_value(cls, data, key, caster, environment_key):
         try:
             data[key] = caster(os.environ[environment_key])
         except KeyError:
-            default = getattr(caster, "missing_default", None)
-            if default:
-                data[key] = default
-            else:
+            default = getattr(caster, "missing_default", cls._MISSING_SENTINEL)
+            if default is cls._MISSING_SENTINEL:
                 raise ConfigError(
                     f"Environment variable {environment_key} not found."
                     f" Please set it or provide a `missing_default` to your caster."
                 )
+            data[key] = default
         except Exception as e:
-            default = getattr(caster, "error_default", None)
-            if default:
-                data[key] = default
-            else:
+            default = getattr(caster, "error_default", cls._MISSING_SENTINEL)
+            if default is cls._MISSING_SENTINEL:
                 raise ConfigError(
                     f"Error while parsing {environment_key}='{os.environ[environment_key]}' with '{caster}'."
                     " Please check the value and the caster or provide an `error_default` to your caster."
                 ) from e
+            data[key] = default
 
     @classmethod
     def _create(cls, data: dict, prefix: str = "", sep: str = "__"):
