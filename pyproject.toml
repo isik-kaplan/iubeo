@@ -1,6 +1,6 @@
 [project]
 name = "iubeo"
-version = "0.4.0"
+version = "0.4.1"
 description = "Friendlier way to write your config."
 authors = [
   { name = "Işık Kaplan", email = "isik.kaplan@outlook.com" }
